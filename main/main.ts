@@ -1,4 +1,3 @@
-import { ManageDichVu } from "./../service/manageDichVu";
 import { Admin } from "./../model/admin";
 import { ManageAdmin } from "../service/manageAdmin";
 import { ManagePC } from "../service/managePc";
@@ -9,28 +8,52 @@ import { ManageUser } from "../service/manageUser";
 let input = require("readline-sync");
 let listAdmin: ManageAdmin = new ManageAdmin();
 let listPC: ManagePC = new ManagePC();
-let listDichvu: ManageDichVu = new ManageDichVu();
-let listUser :  ManageUser = new ManageUser()
+
+let listUser: ManageUser = new ManageUser();
 
 function manHinhChinh() {
   let menu = `1. Dang nhap`;
 
   console.log(menu);
   let choice: number;
-  let check = true;
   do {
     choice = +input.question("nhap lua chon cua ban :");
     switch (choice) {
       case 1:
         let admin: Admin = dangNhap();
-        if (listAdmin.dangNhap(admin)) {
-          check = false;
+        console.log(admin);
+        if (listAdmin.dangNhap(admin) === "admin") {
           menuChinh();
+        } else {
+          menuNguoiDung();
         }
         break;
     }
-  } while (check);
+  } while (choice);
 }
+function menuNguoiDung() {
+  let menu = `------MENU-------
+      1. Do an
+      2. Do uong `;
+  console.log(menu);
+  let choice: number;
+  do {
+    choice = input.question("nhap lua chon cua ban :");
+    switch (choice) {
+      case 1:
+        doAn();
+        break;
+      case 2:
+        // doUong();
+        break;
+    }
+  } while (choice >= 0);
+}
+
+function doAn(){
+      listPC.addDoAn()
+}
+
 function menuChinh() {
   let menu = `--------Menu-------
                     1.Hien thi danh sach may tinh
@@ -62,9 +85,15 @@ function menuChinh() {
       case 5:
         dichvu();
         break;
-      case 8 :
-        quanLyNgDung()
-        break  
+      case 6:
+        chinhSuaTienTheoH();
+        break;
+      case 7:
+        tinhTientheoH();
+        break;
+      case 8:
+        quanLyNgDung();
+        break;
     }
   } while (choice != 0);
 }
@@ -102,12 +131,12 @@ function dichvu() {
       case 1:
         addDichVu();
         break;
-      case 2 : 
-      removeDichVu()
-      break
-      case 0 :  
-      menuChinh()
-      break 
+      case 2:
+        removeDichVu();
+        break;
+      case 0:
+        menuChinh();
+        break;
     }
   } while (choice >= 0);
 }
@@ -116,60 +145,66 @@ function addDichVu() {
   let name = input.question("nhap ten dich vu : ");
   let price = +input.question("nhap gia cua dich vu: ");
   let dichVu: DichVu = new DichVu(id, name, price);
-  listDichvu.add(dichVu);
+  listPC.addDichVu(dichVu);
 }
 function removeDichVu() {
   let id = +input.question("nhap id Dich vu can xoa");
-  listDichvu.removeDichvu(id);
+  listPC.removeDichvu(id);
 }
-function quanLyNgDung(){
-        let menu = `1.Them tai khoan nguoi dung
+function quanLyNgDung() {
+  let menu = `1.Them tai khoan nguoi dung
                     2.Sua tai khoan nguoi dung
                     3.Xoa tai khoan nguoi dung
                     4.Hien thi danh sach nguoi dung
-                    0.Thoat`
-                    console.log(menu);
-            let choice : number
-            do {
-                choice = +input.question('nhap lua chon')
-                switch(choice){
-                    case 1 :
-                        addUser()
-                        break
-                    case 2 :
-                        editUser()
-                        break
-                    case 3 :
-                        removeUser()
-                        break
-                    case 4 : 
-                    showListUser()   
-                    break
-                    case 0 :
-                        menuChinh()
-                        break
-                }
-                
-            } while (choice >= 0);        
+                    0.Thoat`;
+  console.log(menu);
+  let choice: number;
+  do {
+    choice = +input.question("nhap lua chon");
+    switch (choice) {
+      case 1:
+        addUser();
+        break;
+      case 2:
+        editUser();
+        break;
+      case 3:
+        removeUser();
+        break;
+      case 4:
+        showListUser();
+        break;
+      case 0:
+        menuChinh();
+        break;
+    }
+  } while (choice >= 0);
 }
-function addUser(){
-    let username = input.question('nhap tai khoan')
-    let password = input.question('nhap mat khau')
-    let account  : User = new User(username,password)
-    listUser.addUser(account)
+function addUser() {
+  let username = input.question("nhap tai khoan");
+  let password = input.question("nhap mat khau");
+  let account: User = new User(username, password);
+  listUser.addUser(account);
 }
-function editUser(){
-    let username = input.question('nhap tai khoan can sua ')
-    listUser.editUser(username)
+function editUser() {
+  let username = input.question("nhap tai khoan can sua ");
+  listUser.editUser(username);
+}
+function removeUser() {
+  let username = input.question("nhap tai khoan can xoa");
+  listUser.removeUser(username);
+}
+function showListUser() {
+  console.log(listUser.showUser());
+}
+function tinhTientheoH() {
+  listPC.tinhTienNet();
+}
+function chinhSuaTienTheoH() {
+  let tien = +input.question("nhap so tien sua theo 1  gio ");
+  listPC.editTien(tien);
+}
 
-}
-function removeUser(){
-        let username = input.question('nhap tai khoan can xoa')
-        listUser.removeUser(username)
-}
-function showListUser(){
-        console.log(listUser.showUser());
-}
 
 function main() {
   manHinhChinh();
