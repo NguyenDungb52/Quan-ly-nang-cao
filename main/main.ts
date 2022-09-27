@@ -51,7 +51,7 @@ function menuNguoiDung() {
 }
 
 function doAn(){
-      listPC.addDoAn()
+     
 }
 
 function menuChinh() {
@@ -129,7 +129,7 @@ function dichvu() {
     choice = +input.question("nhap lua chon cua ban");
     switch (choice) {
       case 1:
-        addDichVu();
+        addDoAn()
         break;
       case 2:
         removeDichVu();
@@ -140,12 +140,14 @@ function dichvu() {
     }
   } while (choice >= 0);
 }
-function addDichVu() {
-  let id = +input.question("nhap ID : ");
-  let name = input.question("nhap ten dich vu : ");
-  let price = +input.question("nhap gia cua dich vu: ");
-  let dichVu: DichVu = new DichVu(id, name, price);
-  listPC.addDichVu(dichVu);
+
+
+function addDoAn(){
+    listPC.addProduct()
+}
+
+function addSanPham(){
+  listPC.addProduct()
 }
 function removeDichVu() {
   let id = +input.question("nhap id Dich vu can xoa");

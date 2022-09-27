@@ -3,7 +3,6 @@ exports.__esModule = true;
 var admin_1 = require("./../model/admin");
 var manageAdmin_1 = require("../service/manageAdmin");
 var managePc_1 = require("../service/managePc");
-var dichvu_1 = require("../model/dichvu");
 var user_1 = require("../model/user");
 var manageUser_1 = require("../service/manageUser");
 var input = require("readline-sync");
@@ -47,7 +46,6 @@ function menuNguoiDung() {
     } while (choice >= 0);
 }
 function doAn() {
-    listPC.addDoAn();
 }
 function menuChinh() {
     var menu = "--------Menu-------\n                    1.Hien thi danh sach may tinh\n                    2.Them 1 may vao danh sach \n                    3.Sua doi thong tin may\n                    4.Xoa 1 may khoi danh sach\n                    5.Them dich vu\n                    6.Chinh sua tinh tien theo gio\n                    7.Tinh tien\n                    8.Quan ly tai khoan dang nhap\n                    9.Doanh thu";
@@ -112,7 +110,7 @@ function dichvu() {
         choice = +input.question("nhap lua chon cua ban");
         switch (choice) {
             case 1:
-                addDichVu();
+                addDoAn();
                 break;
             case 2:
                 removeDichVu();
@@ -123,12 +121,11 @@ function dichvu() {
         }
     } while (choice >= 0);
 }
-function addDichVu() {
-    var id = +input.question("nhap ID : ");
-    var name = input.question("nhap ten dich vu : ");
-    var price = +input.question("nhap gia cua dich vu: ");
-    var dichVu = new dichvu_1.DichVu(id, name, price);
-    listPC.addDichVu(dichVu);
+function addDoAn() {
+    listPC.addProduct();
+}
+function addSanPham() {
+    listPC.addProduct();
 }
 function removeDichVu() {
     var id = +input.question("nhap id Dich vu can xoa");
